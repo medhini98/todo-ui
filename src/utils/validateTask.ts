@@ -1,7 +1,7 @@
 // src/utils/validateTask.ts
 
-import { CreateTaskInput } from "../types/task";
-import { TaskFormErrors } from "../types/validation";
+import type { CreateTaskInput } from "../types/task";
+import type { TaskFormErrors } from "../types/validation";
 
 export function validateTask(input: CreateTaskInput): TaskFormErrors {
   const errors: TaskFormErrors = {};

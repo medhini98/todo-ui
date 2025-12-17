@@ -4,5 +4,9 @@ interface Props {
 }
 
 export default function ErrorBanner({ message }: Props) {
-  return <div role="alert">{message}</div>;
+  return (
+    <div className="error" role="alert">
+      {message}
+    </div>
+  );
 }

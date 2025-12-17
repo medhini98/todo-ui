@@ -1,30 +1,47 @@
 // src/api/tasks.ts
 import type { Task, CreateTaskInput } from "../types/task";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
+const BASE_URL = "http://127.0.0.1:8000";
 
 export async function getTasks(): Promise<Task[]> {
-  const res = await fetch(`${BASE_URL}/todos`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch tasks");
-  }
+  const res = await fetch(`${BASE_URL}/todos/`);
+  if (!res.ok) throw new Error("Failed to fetch tasks");
   return res.json();
 }
 
 export async function createTask(
   input: CreateTaskInput
 ): Promise<Task> {
-  const res = await fetch(`${BASE_URL}/todos`, {
+  const res = await fetch(`${BASE_URL}/todos/`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(input),
   });
 
-  if (!res.ok) {
-    throw new Error("Failed to create task");
-  }
-
+  if (!res.ok) throw new Error("Failed to create task");
   return res.json();
+}
+
+export async function toggleTask(
+  id: string,
+  completed: boolean
+): Promise<Task> {
+  const res = await fetch(`${BASE_URL}/todos/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ completed }),
+  });
+
+  if (!res.ok) throw new Error("Failed to update task");
+  return res.json();
+}
+
+export async function deleteTask(id: string): Promise<void> {
+  const res = await fetch(`${BASE_URL}/todos/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete task");
+  }
 }
